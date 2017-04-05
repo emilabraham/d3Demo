@@ -3,6 +3,7 @@ var height = 400 - margin.top - margin.bottom; //Leave room for axes
 var width = 565 - margin.left - margin.right;
 
 
+//Define boundary of svg image
 var svg = d3.select('.barChart')
   .append('svg')
     .attr('width', width + margin.left + margin.right)
@@ -11,45 +12,40 @@ var svg = d3.select('.barChart')
   .append('g')
     .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
-var data = [
-  {score: 63, subject: 'Mathematics'},
-  {score: 82, subject: 'Geography'},
-  {score: 74, subject: 'Spelling'},
-  {score: 97, subject: 'Reading'},
-  {score: 52, subject: 'Science'},
-  {score: 74, subject: 'Chemistry'},
-  {score: 97, subject: 'Physics'},
-  {score: 52, subject: 'ASL'}
-];
+// Import data source
+d3.json('./data.json', function (err, data) {
+  //Get domain and range for the yScale
+  var yScale = d3.scaleBand()
+    .domain(data.map(d => d.step))
+    .range([0, height]);
 
-var yScale = d3.scaleBand()
-  .domain(data.map(d => d.subject))
-  .range([0, height]);
-  
-var yAxis = d3.axisLeft(yScale);
-svg.call(yAxis);
+  var yAxis = d3.axisLeft(yScale);
+  svg.call(yAxis);
 
-var xScale = d3.scaleLinear()
-  .domain([0, 100])
-  .range([0, width]);
+  var xScale = d3.scaleLinear()
+    .domain([0, 100])
+    .range([0, width]);
 
-var xAxis = d3.axisBottom(xScale)
-  .ticks(5)
-  .tickSize(10)
-  .tickPadding(5);
-svg
-  .append('g')
+  var xAxis = d3.axisBottom(xScale)
+    .ticks(5)
+    .tickSize(10)
+    .tickPadding(5);
+  svg
+    .append('g')
     .attr('transform', `translate(0, ${height})`) //Move down to bottom of svg
-  .call(xAxis);
+    .call(xAxis);
 
-svg.selectAll('rect')
-  .data(data)
-  .enter()
-  .append('rect')
+  svg.selectAll('rect')
+    .data(data)
+    .enter()
+    .append('rect')
     .attr('x', 0)
-    .attr('y', d => yScale(d.subject))
-    .attr('width', d => xScale(d.score))
+    .attr('y', d => yScale(d.step))
+    .attr('width', d => xScale(d.percent))
     .attr('height', d => yScale.bandwidth());
+})
+
+
 
 function responsivefy(svg) {
   // get container + svg aspect ratio
