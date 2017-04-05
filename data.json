@@ -1,0 +1,30 @@
+[
+  {
+    "step": "Sign In",
+    "percent": 100,
+    "avgTime": "1 min"
+  },
+  {
+    "step": "Find Store",
+    "percent": 100,
+    "avgTime": "3 min",
+    "avgRating": 4.3
+  },
+  {
+    "step": "Order Latte",
+    "percent": 100,
+    "avgTime": "5 min",
+    "avgRating": 3
+  },
+  {
+    "step": "Pick Up Drink",
+    "percent": 75,
+    "avgTime": "10 min",
+    "avgRating": 4.4
+  },
+  {
+    "step": "Fill Out Survey",
+    "percent": 43,
+    "avgTime": "15 min"
+  }
+]
